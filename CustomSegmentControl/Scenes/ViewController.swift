@@ -8,11 +8,29 @@
 import UIKit
 
 final class ViewController: UIViewController {
+    enum PencilShopTabItem: String {
+        case Buying = "구매하기"
+        case Obtained = "얻은 연필"
+        case Purchased = "구매한 연필"
+        case Used = "사용한 연필"
+    }
     private let segmentedControl: UISegmentedControl = {
-        let segmentedControl = SegmentedControl(items: ["구매하기", "얻은 연필", "구매한 연필", "사용한 연필"])
+        let segmentedControl = SegmentedControl(items: [
+            PencilShopTabItem.Buying.rawValue,
+            PencilShopTabItem.Obtained.rawValue,
+            PencilShopTabItem.Purchased.rawValue,
+            PencilShopTabItem.Used.rawValue
+        ])
         segmentedControl.apportionsSegmentWidthsByContent = true
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
+    }()
+    
+    private let dividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .superLightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var pageViewController: UIPageViewController = {
@@ -26,22 +44,22 @@ final class ViewController: UIViewController {
     
     private let vc1: UIViewController = {
       let vc = UIViewController()
-      vc.view.backgroundColor = .red
+      vc.view.backgroundColor = .white
       return vc
     }()
     private let vc2: UIViewController = {
       let vc = UIViewController()
-      vc.view.backgroundColor = .green
+      vc.view.backgroundColor = .white
       return vc
     }()
     private let vc3: UIViewController = {
       let vc = UIViewController()
-      vc.view.backgroundColor = .blue
+      vc.view.backgroundColor = .white
       return vc
     }()
     private let vc4: UIViewController = {
       let vc = UIViewController()
-        vc.view.backgroundColor = .systemPink
+        vc.view.backgroundColor = .white
       return vc
     }()
     var viewControllers: [UIViewController] {
@@ -62,20 +80,29 @@ final class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        self.view.addSubview(self.dividerView)
         self.view.addSubview(self.segmentedControl)
         self.view.addSubview(self.pageViewController.view)
-        
+
         NSLayoutConstraint.activate([
             self.segmentedControl.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20),
             self.segmentedControl.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20),
             self.segmentedControl.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 80),
             self.segmentedControl.heightAnchor.constraint(equalToConstant: 36),
         ])
+        
+        NSLayoutConstraint.activate([
+            self.dividerView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0),
+            self.dividerView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0),
+            self.dividerView.topAnchor.constraint(equalTo: self.segmentedControl.bottomAnchor, constant: -1),
+            self.dividerView.heightAnchor.constraint(equalToConstant: 1),
+        ])
+        
         NSLayoutConstraint.activate([
             self.pageViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0),
             self.pageViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0),
             self.pageViewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
-            self.pageViewController.view.topAnchor.constraint(equalTo: self.segmentedControl.bottomAnchor, constant: 0),
+            self.pageViewController.view.topAnchor.constraint(equalTo: self.dividerView.bottomAnchor, constant: 0),
         ])
         
         configureSegmentedControl()
