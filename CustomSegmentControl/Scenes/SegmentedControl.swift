@@ -57,8 +57,7 @@ final class SegmentedControl: UISegmentedControl {
         let textWidth = title.size(withAttributes: [.font: selectedFont]).width
         print(textWidth)
         
-        let horizontalPadding: CGFloat = 2
-        let underlineWidth = textWidth + horizontalPadding * 2
+        let underlineWidth = textWidth
         
         let segmentWidth = bounds.width / CGFloat(numberOfSegments)
         let segmentOriginX = segmentWidth * CGFloat(selectedSegmentIndex)
