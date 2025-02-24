@@ -9,12 +9,35 @@ import UIKit
 
 final class SegmentedControl: UISegmentedControl {
     private lazy var underlineView: UIView = {
-        let width = bounds.size.width / CGFloat(self.numberOfSegments)
-        let height = 2.0
-        let xPosition = CGFloat(selectedSegmentIndex * Int(width))
-        let yPosition = bounds.size.height - 1.0
-        let frame = CGRect(x: xPosition, y: yPosition, width: width, height: height)
-        let view = UIView(frame: frame)
+        let selectedSegment = subviews[0]
+        let segFrame = selectedSegment.frame
+    
+        // 선택된 세그먼트의 타이틀 가져오기
+        let title = titleForSegment(at: 0) ?? ""
+
+        // 세그먼트에 적용된 폰트 구하기
+        let selectedAttributes = titleTextAttributes(for: .selected)
+        let selectedFont = (selectedAttributes?[.font] as? UIFont) ?? UIFont.systemFont(ofSize: 13, weight: .semibold)
+
+        // 텍스트 실제 폭 계산
+        let textWidth = title.size(withAttributes: [.font: selectedFont]).width
+        print(textWidth)
+
+        let underlineWidth = textWidth
+
+        
+        // 세그먼트의 중간 지점
+        let segCenterX = segFrame.midX
+        
+        let underlineHeight: CGFloat = 1
+        
+        let frame = CGRect(
+            x: segCenterX - underlineWidth / 2,
+            y: self.bounds.height - underlineHeight,
+            width: underlineWidth,
+            height: underlineHeight
+        )
+        let view = UIView()
         view.backgroundColor = .black
         addSubview(view)
         return view
@@ -46,34 +69,40 @@ final class SegmentedControl: UISegmentedControl {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        guard selectedSegmentIndex >= 0, selectedSegmentIndex < numberOfSegments else { return }
+        
+        // 세그먼트 서브뷰들을 x좌표 순서대로 정렬
+        let segmentSubviews = subviews
+            .filter { $0 != underlineView } // underlineView는 제외
+        
+        guard selectedSegmentIndex < segmentSubviews.count else { return }
+        
+        let selectedSegment = segmentSubviews[selectedSegmentIndex]
+        let segFrame = selectedSegment.frame  // (내부 좌표)
+    
         // 선택된 세그먼트의 타이틀 가져오기
         guard let title = titleForSegment(at: selectedSegmentIndex) else { return }
-        
+
         // 세그먼트에 적용된 폰트 구하기
         let selectedAttributes = titleTextAttributes(for: .selected)
         let selectedFont = (selectedAttributes?[.font] as? UIFont) ?? UIFont.systemFont(ofSize: 13, weight: .semibold)
-        
+
         // 텍스트 실제 폭 계산
         let textWidth = title.size(withAttributes: [.font: selectedFont]).width
         print(textWidth)
-        
+
         let underlineWidth = textWidth
+
         
-        let segmentWidth = bounds.width / CGFloat(numberOfSegments)
-        let segmentOriginX = segmentWidth * CGFloat(selectedSegmentIndex)
-        
-        // 세그먼트 수평 중앙
-        let segmentCenterX = segmentOriginX + segmentWidth / 2
+        // 세그먼트의 중간 지점
+        let segCenterX = segFrame.midX
         
         let underlineHeight: CGFloat = 1
-        let underlineX = segmentCenterX - underlineWidth / 2
-        let underlineY = bounds.height - underlineHeight
         
-        
-        UIView.animate(withDuration: 0.1) {
+        UIView.animate(withDuration: 0.3) {
             self.underlineView.frame = CGRect(
-                x: underlineX,
-                y: underlineY,
+                x: segCenterX - underlineWidth / 2,
+                y: self.bounds.height - underlineHeight,
                 width: underlineWidth,
                 height: underlineHeight
             )

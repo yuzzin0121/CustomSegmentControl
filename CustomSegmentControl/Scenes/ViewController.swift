@@ -9,7 +9,8 @@ import UIKit
 
 final class ViewController: UIViewController {
     private let segmentedControl: UISegmentedControl = {
-        let segmentedControl = SegmentedControl(items: ["전체", "웹툰", "베스트도전"])
+        let segmentedControl = SegmentedControl(items: ["구매하기", "얻은 연필", "구매한 연필", "사용한 연필"])
+        segmentedControl.apportionsSegmentWidthsByContent = true
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
@@ -38,8 +39,13 @@ final class ViewController: UIViewController {
       vc.view.backgroundColor = .blue
       return vc
     }()
+    private let vc4: UIViewController = {
+      let vc = UIViewController()
+        vc.view.backgroundColor = .systemPink
+      return vc
+    }()
     var viewControllers: [UIViewController] {
-        [vc1, vc2, vc3]
+        [vc1, vc2, vc3, vc4]
     }
     
     var currentPage: Int = 0 {
@@ -60,16 +66,16 @@ final class ViewController: UIViewController {
         self.view.addSubview(self.pageViewController.view)
         
         NSLayoutConstraint.activate([
-          self.segmentedControl.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-          self.segmentedControl.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-          self.segmentedControl.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 80),
-          self.segmentedControl.heightAnchor.constraint(equalToConstant: 50),
+            self.segmentedControl.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20),
+            self.segmentedControl.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20),
+            self.segmentedControl.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 80),
+            self.segmentedControl.heightAnchor.constraint(equalToConstant: 36),
         ])
         NSLayoutConstraint.activate([
-          self.pageViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 4),
-          self.pageViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -4),
-          self.pageViewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -4),
-          self.pageViewController.view.topAnchor.constraint(equalTo: self.segmentedControl.bottomAnchor, constant: 0),
+            self.pageViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0),
+            self.pageViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0),
+            self.pageViewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
+            self.pageViewController.view.topAnchor.constraint(equalTo: self.segmentedControl.bottomAnchor, constant: 0),
         ])
         
         configureSegmentedControl()
@@ -79,11 +85,18 @@ final class ViewController: UIViewController {
     }
 
     private func configureSegmentedControl() {
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for: .normal)
+//        segmentedControl.backgroundColor = .black.withAlphaComponent(0.1)
+        segmentedControl.setTitleTextAttributes(
+              [
+                NSAttributedString.Key.foregroundColor: UIColor.lightGray,
+                .font: UIFont.systemFont(ofSize: 13, weight: .bold)
+              ],
+              for: .normal
+            )
         segmentedControl.setTitleTextAttributes(
               [
                 NSAttributedString.Key.foregroundColor: UIColor.black,
-                .font: UIFont.systemFont(ofSize: 13, weight: .semibold)
+                .font: UIFont.systemFont(ofSize: 13, weight: .bold)
               ],
               for: .selected
             )
