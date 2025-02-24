@@ -14,12 +14,6 @@ final class ViewController: UIViewController {
         return segmentedControl
     }()
     
-    private let childView: UIView = {
-       let view = UIView()
-       view.translatesAutoresizingMaskIntoConstraints = false
-       return view
-     }()
-    
     private lazy var pageViewController: UIPageViewController = {
         let vc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         vc.setViewControllers([self.viewControllers[0]], direction: .forward, animated: true)
