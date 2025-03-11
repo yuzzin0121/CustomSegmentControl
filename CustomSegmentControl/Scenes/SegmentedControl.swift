@@ -17,11 +17,10 @@ final class SegmentedControl: UISegmentedControl {
 
         // 세그먼트에 적용된 폰트 구하기
         let selectedAttributes = titleTextAttributes(for: .selected)
-        let selectedFont = (selectedAttributes?[.font] as? UIFont) ?? UIFont.systemFont(ofSize: 13, weight: .semibold)
+        let selectedFont = (selectedAttributes?[.font] as? UIFont) ?? UIFont.systemFont(ofSize: 14, weight: .semibold)
 
         // 텍스트 실제 폭 계산
         let textWidth = title.size(withAttributes: [.font: selectedFont]).width
-        print(textWidth)
 
         let underlineWidth = textWidth
 
@@ -85,7 +84,7 @@ final class SegmentedControl: UISegmentedControl {
 
         // 세그먼트에 적용된 폰트 구하기
         let selectedAttributes = titleTextAttributes(for: .selected)
-        let selectedFont = (selectedAttributes?[.font] as? UIFont) ?? UIFont.systemFont(ofSize: 13, weight: .semibold)
+        let selectedFont = (selectedAttributes?[.font] as? UIFont) ?? UIFont.systemFont(ofSize: 14, weight: .semibold)
 
         // 텍스트 실제 폭 계산
         let textWidth = title.size(withAttributes: [.font: selectedFont]).width

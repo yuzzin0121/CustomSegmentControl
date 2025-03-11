@@ -88,7 +88,7 @@ final class ViewController: UIViewController {
             self.segmentedControl.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20),
             self.segmentedControl.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20),
             self.segmentedControl.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 80),
-            self.segmentedControl.heightAnchor.constraint(equalToConstant: 36),
+            self.segmentedControl.heightAnchor.constraint(equalToConstant: 40),
         ])
         
         NSLayoutConstraint.activate([
@@ -112,18 +112,17 @@ final class ViewController: UIViewController {
     }
 
     private func configureSegmentedControl() {
-//        segmentedControl.backgroundColor = .black.withAlphaComponent(0.1)
         segmentedControl.setTitleTextAttributes(
               [
                 NSAttributedString.Key.foregroundColor: UIColor.lightGray,
-                .font: UIFont.systemFont(ofSize: 13, weight: .bold)
+                .font: UIFont.systemFont(ofSize: 14, weight: .bold)
               ],
               for: .normal
             )
         segmentedControl.setTitleTextAttributes(
               [
                 NSAttributedString.Key.foregroundColor: UIColor.black,
-                .font: UIFont.systemFont(ofSize: 13, weight: .bold)
+                .font: UIFont.systemFont(ofSize: 14, weight: .bold)
               ],
               for: .selected
             )
